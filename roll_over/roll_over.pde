@@ -12,12 +12,23 @@ int topLeftFill = 255;
 int topRightFill = 255;
 int bottomLeftFill = 255;
 int bottomRightFill = 255;
+boolean offOn = true;
+boolean allOn = false;
 
 void setup() {
   size(500, 500);
-  
 }
-  
+
+
+void mouseClicked() {
+  if (mouseX > width/2 && mouseY > height/2) {
+    offOn = !offOn;
+  }
+  if (mouseX < width/2 && mouseY < height/2) {
+    allOn = true;
+  }
+}
+
 void draw() {
   background(255);
   line(width/2, 0, width/2, height);
@@ -47,12 +58,14 @@ void draw() {
   }
 
 
+
+
   println(topLeft);
   //logic top left
   if (topLeft) {
     topLeftFill = 0;
   } else (topLeftFill) += 7;
-  fill(topLeftFill);
+  fill(topLeftFill, 255, 255);
   rect(0, 0, width/2, height/2 -1);
 
   println(topRight);
@@ -60,7 +73,7 @@ void draw() {
   if (topRight) {
     topRightFill = 0;
   } else (topRightFill) += 7;
-  fill(topRightFill);
+  fill(255, topRightFill, 255);
   rect(width/2, 0, width/2, height/2 -1);
 
   println(bottomLeft);
@@ -74,9 +87,26 @@ void draw() {
   println(bottomRight);
   //logic bottom right
   if (bottomRight) {
-    bottomRightFill = 0;
-  } else (bottomRightFill) += 7;
-  fill(bottomRightFill);
+
+    if (offOn == true) {
+      bottomRightFill = 0;
+    } else {
+      bottomRightFill =  255;
+    }
+  } else {
+    if (offOn == true) {
+      bottomRightFill += 7;
+    }
+  }
+  fill(255, 255, bottomRightFill);
   rect(width/2, height/2, width/2, height/2 -1);
 
-} 
+  {
+    if (allOn == true) {
+      fill(topLeftFill, 255, 255);
+      fill(255, topRightFill, 255);
+      fill(bottomLeftFill);
+      fill(255, 255, bottomRightFill);
+    }
+  }
+}
