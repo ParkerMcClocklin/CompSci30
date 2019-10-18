@@ -12,23 +12,24 @@ int topLeftFill = 255;
 int topRightFill = 255;
 int bottomLeftFill = 255;
 int bottomRightFill = 255;
-boolean offOn = true;
-boolean allOn = false;
+boolean offOn = true;    // state variable for light switch
+boolean allOn = false;   //state variable for all lights on
 
 void setup() {
   size(500, 500);
 }
 
-
+//update state variable when mmouse clicked
 void mouseClicked() {
   if (mouseX > width/2 && mouseY > height/2) {
     offOn = !offOn;
   }
   if (mouseX < width/2 && mouseY < height/2) {
-    allOn = true;
+    allOn = !allOn;
   }
 }
 
+// logic for X and Y position of mouse 
 void draw() {
   background(255);
   line(width/2, 0, width/2, height);
@@ -59,12 +60,25 @@ void draw() {
 
 
 
+  if (!topLeft){
+    allOn = false;
+  }
 
   println(topLeft);
   //logic top left
+  //logic all lights on
   if (topLeft) {
+    if (allOn == true) {
+      topRightFill = 0;
+      bottomLeftFill = 0;
+      bottomRightFill = 0;
+    } else {
+      topRightFill += 5;
+      bottomRightFill += 5;
+      bottomLeftFill += 5;
+    }
     topLeftFill = 0;
-  } else (topLeftFill) += 7;
+  } else topLeftFill += 5;
   fill(topLeftFill, 255, 255);
   rect(0, 0, width/2, height/2 -1);
 
@@ -72,7 +86,7 @@ void draw() {
   //logic top Right
   if (topRight) {
     topRightFill = 0;
-  } else (topRightFill) += 7;
+  } else (topRightFill) += 5;
   fill(255, topRightFill, 255);
   rect(width/2, 0, width/2, height/2 -1);
 
@@ -80,12 +94,13 @@ void draw() {
   //logic bottom left
   if (bottomLeft) {
     bottomLeftFill = 0;
-  } else (bottomLeftFill) += 7;
+  } else bottomLeftFill += 5;
   fill(bottomLeftFill);
   rect(0, height/2, width/2, height/2 -1);
 
   println(bottomRight);
   //logic bottom right
+  //logic for light switch
   if (bottomRight) {
 
     if (offOn == true) {
@@ -95,18 +110,9 @@ void draw() {
     }
   } else {
     if (offOn == true) {
-      bottomRightFill += 7;
+      bottomRightFill += 5;
     }
   }
   fill(255, 255, bottomRightFill);
   rect(width/2, height/2, width/2, height/2 -1);
-
-  {
-    if (allOn == true) {
-      fill(topLeftFill, 255, 255);
-      fill(255, topRightFill, 255);
-      fill(bottomLeftFill);
-      fill(255, 255, bottomRightFill);
-    }
-  }
 }
